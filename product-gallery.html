@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제품 갤러리 - 보은한복</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="gallery-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <h1>보은한복</h1>
+                    <span class="logo-subtitle">Boeun Hanbok</span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html#home">홈</a></li>
+                    <li><a href="index.html#about">소개</a></li>
+                    <li><a href="index.html#products">제품</a></li>
+                    <li><a href="index.html#gallery">갤러리</a></li>
+                    <li><a href="index.html#contact">문의</a></li>
+                    <li><a href="admin-login.html" class="admin-link">관리자</a></li>
+                </ul>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Gallery Header -->
+    <section class="gallery-header">
+        <div class="container">
+            <a href="index.html#products" class="back-link">← 제품 목록으로</a>
+            <h1 class="gallery-title" id="productName">제품 갤러리</h1>
+            <p class="gallery-description" id="productDescription"></p>
+        </div>
+    </section>
+
+    <!-- Gallery Grid -->
+    <section class="product-gallery-section">
+        <div class="container">
+            <div class="gallery-grid-full" id="galleryGrid">
+                <!-- Gallery images will be loaded here -->
+            </div>
+            <div class="empty-gallery" id="emptyGallery" style="display: none;">
+                <div class="empty-icon">📷</div>
+                <p>아직 등록된 갤러리 이미지가 없습니다.</p>
+                <a href="admin-login.html" class="btn btn-primary">관리자 페이지에서 이미지 추가하기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <span class="lightbox-prev">&#10094;</span>
+        <span class="lightbox-next">&#10095;</span>
+        <img class="lightbox-content" id="lightboxImage">
+        <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>보은한복</h3>
+                    <p>전통의 아름다움을 현대적으로</p>
+                </div>
+                <div class="footer-links">
+                    <h4>빠른 링크</h4>
+                    <ul>
+                        <li><a href="index.html#home">홈</a></li>
+                        <li><a href="index.html#about">소개</a></li>
+                        <li><a href="index.html#products">제품</a></li>
+                        <li><a href="index.html#gallery">갤러리</a></li>
+                        <li><a href="index.html#contact">문의</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h4>소셜 미디어</h4>
+                    <div class="social-icons">
+                        <a href="#" aria-label="Instagram">📷</a>
+                        <a href="#" aria-label="Facebook">📘</a>
+                        <a href="#" aria-label="YouTube">📺</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 보은한복. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="product-gallery.js"></script>
+</body>
+</html>
