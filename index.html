@@ -24,7 +24,6 @@
                     <li><a href="#products">제품</a></li>
                     <li><a href="#gallery">갤러리</a></li>
                     <li><a href="#contact">문의</a></li>
-                    <li><a href="admin-login.html" class="admin-link">관리자</a></li>
                 </ul>
                 <div class="hamburger">
                     <span></span>
@@ -86,7 +85,7 @@
                     </div>
                 </div>
                 <div class="about-image">
-                    <div class="image-placeholder">
+                    <div class="image-placeholder" id="aboutImage" data-default-text="한복 이미지">
                         <span>한복 이미지</span>
                     </div>
                 </div>
@@ -114,7 +113,7 @@
                     <div class="product-info">
                         <h3>전통 한복</h3>
                         <p>명절과 특별한 날을 위한 전통 한복</p>
-                        <span class="price">₩500,000 ~</span>
+                        <a href="#contact" class="inquiry-btn">상담문의</a>
                     </div>
                 </div>
                 <div class="product-card" data-product-id="product-2">
@@ -129,7 +128,7 @@
                     <div class="product-info">
                         <h3>생활한복</h3>
                         <p>일상에서 편하게 입을 수 있는 생활한복</p>
-                        <span class="price">₩300,000 ~</span>
+                        <a href="#contact" class="inquiry-btn">상담문의</a>
                     </div>
                 </div>
                 <div class="product-card" data-product-id="product-3">
@@ -144,7 +143,7 @@
                     <div class="product-info">
                         <h3>웨딩한복</h3>
                         <p>결혼식을 위한 특별한 웨딩한복</p>
-                        <span class="price">₩800,000 ~</span>
+                        <a href="#contact" class="inquiry-btn">상담문의</a>
                     </div>
                 </div>
                 <div class="product-card" data-product-id="product-4">
@@ -159,7 +158,7 @@
                     <div class="product-info">
                         <h3>아동한복</h3>
                         <p>아이들을 위한 귀여운 한복</p>
-                        <span class="price">₩200,000 ~</span>
+                        <a href="#contact" class="inquiry-btn">상담문의</a>
                     </div>
                 </div>
             </div>
@@ -173,37 +172,12 @@
                 <h2 class="section-title">갤러리</h2>
                 <p class="section-subtitle">보은한복을 입은 모델들의 모습</p>
             </div>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <div class="image-placeholder">
-                        <span>갤러리 이미지 1</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="image-placeholder">
-                        <span>갤러리 이미지 2</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="image-placeholder">
-                        <span>갤러리 이미지 3</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="image-placeholder">
-                        <span>갤러리 이미지 4</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="image-placeholder">
-                        <span>갤러리 이미지 5</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <div class="image-placeholder">
-                        <span>갤러리 이미지 6</span>
-                    </div>
-                </div>
+            <div class="gallery-grid" id="mainGalleryGrid">
+                <!-- Gallery images will be loaded here by JavaScript -->
+            </div>
+            <div class="empty-gallery-message" id="emptyGalleryMessage" style="display: none;">
+                <div class="empty-icon">📷</div>
+                <p>아직 등록된 갤러리 이미지가 없습니다.</p>
             </div>
         </div>
     </section>
@@ -221,7 +195,7 @@
                         <div class="info-icon">📍</div>
                         <div class="info-text">
                             <h4>주소</h4>
-                            <p>부산 동구 진시장로 24 부산진시장</p>
+                            <p>부산 동구 진시장로 24 부산진시장 보은한복</p>
                         </div>
                     </div>
                     <div class="info-item">
@@ -245,21 +219,31 @@
                             <p>월-토: 08:00 - 19:00<br>일요일: 휴무</p>
                         </div>
                     </div>
+                    <div class="info-item">
+                        <div class="info-icon">💬</div>
+                        <div class="info-text">
+                            <h4>카카오톡 문의</h4>
+                            <p id="kakaoChannelLink" style="cursor: pointer; color: #3c1e1e; text-decoration: underline;">
+                                카카오톡으로 문의하기
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <form class="contact-form">
+                <form class="contact-form" id="contactForm">
                     <div class="form-group">
-                        <input type="text" placeholder="이름" required>
+                        <input type="text" name="name" placeholder="이름" required>
                     </div>
                     <div class="form-group">
-                        <input type="email" placeholder="이메일" required>
+                        <input type="email" name="email" placeholder="이메일" required>
                     </div>
                     <div class="form-group">
-                        <input type="tel" placeholder="전화번호">
+                        <input type="tel" name="phone" placeholder="전화번호" required>
                     </div>
                     <div class="form-group">
-                        <textarea placeholder="문의 내용" rows="5" required></textarea>
+                        <textarea name="message" placeholder="문의 내용" rows="5" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">문의하기</button>
+                    <button type="submit" class="btn btn-primary">카카오톡으로 문의하기</button>
+                    <p class="form-notice">문의하기 버튼을 누르면 카카오톡이 열립니다</p>
                 </form>
             </div>
         </div>

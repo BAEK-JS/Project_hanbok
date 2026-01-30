@@ -196,9 +196,13 @@ tabBtns.forEach(btn => {
         btn.classList.add('active');
         document.getElementById(`${tabName}-tab`).classList.add('active');
         
-        // Load gallery images if gallery tab is clicked
+        // Load content based on tab
         if (tabName === 'gallery-images') {
             loadGalleryImages();
+        } else if (tabName === 'about-image') {
+            loadAboutImageAdmin();
+        } else if (tabName === 'main-gallery') {
+            loadMainGalleryImages();
         }
     });
 });
@@ -357,6 +361,243 @@ document.getElementById('galleryProductSelect').addEventListener('change', loadG
 document.getElementById('galleryUploadModal').addEventListener('click', function(e) {
     if (e.target === this) {
         closeGalleryModal();
+    }
+});
+
+// About Image Management
+function loadAboutImageAdmin() {
+    const savedImage = localStorage.getItem('about-image');
+    const preview = document.getElementById('aboutImagePreview');
+    const deleteBtn = document.getElementById('deleteAboutImageBtn');
+    
+    if (savedImage) {
+        preview.innerHTML = `<img src="${savedImage}" alt="소개 이미지" style="width: 100%; height: 100%; object-fit: cover;">`;
+        preview.classList.remove('placeholder');
+        if (deleteBtn) deleteBtn.style.display = 'inline-block';
+    } else {
+        preview.innerHTML = '한복 이미지';
+        preview.classList.add('placeholder');
+        if (deleteBtn) deleteBtn.style.display = 'none';
+    }
+}
+
+function openAboutUploadModal() {
+    document.getElementById('aboutUploadModal').classList.add('active');
+    document.getElementById('aboutImageFile').value = '';
+    document.getElementById('aboutFileName').textContent = '';
+    document.getElementById('aboutPreviewImage').style.display = 'none';
+}
+
+function closeAboutModal() {
+    document.getElementById('aboutUploadModal').classList.remove('active');
+}
+
+// Preview about image
+document.getElementById('aboutImageFile').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        document.getElementById('aboutFileName').textContent = file.name;
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('aboutPreviewImage');
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+// Upload about image
+function uploadAboutImage() {
+    const fileInput = document.getElementById('aboutImageFile');
+    const file = fileInput.files[0];
+    
+    if (!file) {
+        alert('이미지 파일을 선택해주세요.');
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        alert('파일 크기는 5MB 이하여야 합니다.');
+        return;
+    }
+
+    if (!file.type.startsWith('image/')) {
+        alert('이미지 파일만 업로드 가능합니다.');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        localStorage.setItem('about-image', e.target.result);
+        showSuccessMessage('이미지가 성공적으로 업로드되었습니다.');
+        closeAboutModal();
+        loadAboutImageAdmin();
+    };
+    reader.readAsDataURL(file);
+}
+
+// Remove about image
+function removeAboutImage() {
+    if (confirm('이미지를 삭제하시겠습니까?')) {
+        localStorage.removeItem('about-image');
+        showSuccessMessage('이미지가 삭제되었습니다.');
+        loadAboutImageAdmin();
+    }
+}
+
+// Close about modal when clicking outside
+document.getElementById('aboutUploadModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeAboutModal();
+    }
+});
+
+// Main Gallery Management
+let selectedMainGalleryFiles = [];
+
+function openMainGalleryUploadModal() {
+    document.getElementById('mainGalleryUploadModal').classList.add('active');
+    document.getElementById('mainGalleryImageFile').value = '';
+    document.getElementById('mainGalleryFileNames').textContent = '';
+    document.getElementById('mainGalleryPreviewContainer').innerHTML = '';
+    selectedMainGalleryFiles = [];
+}
+
+function closeMainGalleryModal() {
+    document.getElementById('mainGalleryUploadModal').classList.remove('active');
+    selectedMainGalleryFiles = [];
+}
+
+// Preview main gallery images
+document.getElementById('mainGalleryImageFile').addEventListener('change', function(e) {
+    const files = Array.from(e.target.files);
+    selectedMainGalleryFiles = files;
+    
+    if (files.length > 0) {
+        document.getElementById('mainGalleryFileNames').textContent = 
+            `${files.length}개 파일 선택됨`;
+        
+        const previewContainer = document.getElementById('mainGalleryPreviewContainer');
+        previewContainer.innerHTML = '';
+        
+        files.forEach((file, index) => {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const previewItem = document.createElement('div');
+                previewItem.className = 'gallery-preview-item';
+                previewItem.innerHTML = `<img src="${e.target.result}" alt="Preview ${index + 1}">`;
+                previewContainer.appendChild(previewItem);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+});
+
+// Upload main gallery images
+function uploadMainGalleryImages() {
+    if (selectedMainGalleryFiles.length === 0) {
+        alert('이미지 파일을 선택해주세요.');
+        return;
+    }
+
+    // Check file sizes
+    for (let file of selectedMainGalleryFiles) {
+        if (file.size > 5 * 1024 * 1024) {
+            alert('각 파일 크기는 5MB 이하여야 합니다.');
+            return;
+        }
+        if (!file.type.startsWith('image/')) {
+            alert('이미지 파일만 업로드 가능합니다.');
+            return;
+        }
+    }
+
+    // Get existing gallery
+    let gallery = [];
+    const savedGallery = localStorage.getItem('main-gallery');
+    if (savedGallery) {
+        gallery = JSON.parse(savedGallery);
+    }
+
+    // Process all files
+    let processedCount = 0;
+    selectedMainGalleryFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            gallery.push({
+                src: e.target.result,
+                uploadedAt: new Date().toISOString()
+            });
+            
+            processedCount++;
+            
+            // Save when all files are processed
+            if (processedCount === selectedMainGalleryFiles.length) {
+                localStorage.setItem('main-gallery', JSON.stringify(gallery));
+                showSuccessMessage(`${selectedMainGalleryFiles.length}개의 이미지가 업로드되었습니다.`);
+                closeMainGalleryModal();
+                loadMainGalleryImages();
+            }
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
+// Load main gallery images
+function loadMainGalleryImages() {
+    const savedGallery = localStorage.getItem('main-gallery');
+    const grid = document.getElementById('mainGalleryImagesGrid');
+    grid.innerHTML = '';
+    
+    if (savedGallery) {
+        const images = JSON.parse(savedGallery);
+        
+        if (images.length > 0) {
+            images.forEach((image, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-admin-item';
+                item.innerHTML = `
+                    <img src="${image.src}" alt="갤러리 ${index + 1}" class="gallery-admin-image">
+                    <div class="gallery-admin-actions">
+                        <span class="gallery-item-number">이미지 ${index + 1}</span>
+                        <button class="btn-delete-gallery" onclick="deleteMainGalleryImage(${index})">
+                            삭제
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(item);
+            });
+        } else {
+            grid.innerHTML = '<div class="empty-gallery-admin"><p>등록된 갤러리 이미지가 없습니다.</p></div>';
+        }
+    } else {
+        grid.innerHTML = '<div class="empty-gallery-admin"><p>등록된 갤러리 이미지가 없습니다.</p></div>';
+    }
+}
+
+// Delete main gallery image
+function deleteMainGalleryImage(index) {
+    if (!confirm('이 이미지를 삭제하시겠습니까?')) {
+        return;
+    }
+    
+    const savedGallery = localStorage.getItem('main-gallery');
+    
+    if (savedGallery) {
+        let gallery = JSON.parse(savedGallery);
+        gallery.splice(index, 1);
+        localStorage.setItem('main-gallery', JSON.stringify(gallery));
+        showSuccessMessage('이미지가 삭제되었습니다.');
+        loadMainGalleryImages();
+    }
+}
+
+// Close main gallery modal when clicking outside
+document.getElementById('mainGalleryUploadModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeMainGalleryModal();
     }
 });
 

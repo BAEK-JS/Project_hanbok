@@ -515,6 +515,27 @@ section {
     font-size: 0.95rem;
 }
 
+.inquiry-btn {
+    display: inline-block;
+    padding: 10px 25px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #a01829 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: var(--transition);
+    box-shadow: 0 3px 10px rgba(196, 30, 58, 0.3);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.inquiry-btn:hover {
+    background: linear-gradient(135deg, #a01829 0%, var(--accent-color) 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(196, 30, 58, 0.5);
+    border-color: rgba(212, 175, 55, 0.6);
+}
+
 .price {
     font-size: 1.3rem;
     font-weight: 700;
@@ -530,6 +551,23 @@ section {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
+}
+
+.empty-gallery-message {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-light);
+}
+
+.empty-gallery-message .empty-icon {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.empty-gallery-message p {
+    font-size: 1.2rem;
+    margin: 0;
 }
 
 .gallery-item {
@@ -624,6 +662,13 @@ section {
 
 .form-group textarea {
     resize: vertical;
+}
+
+.form-notice {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-top: 10px;
 }
 
 /* Footer */

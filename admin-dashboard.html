@@ -30,7 +30,9 @@
             <!-- Tab Navigation -->
             <div class="tab-navigation">
                 <button class="tab-btn active" data-tab="product-images">제품 대표 이미지</button>
-                <button class="tab-btn" data-tab="gallery-images">갤러리 이미지</button>
+                <button class="tab-btn" data-tab="about-image">소개 섹션 이미지</button>
+                <button class="tab-btn" data-tab="main-gallery">메인 갤러리</button>
+                <button class="tab-btn" data-tab="gallery-images">제품 갤러리</button>
             </div>
 
             <!-- Product Images Tab -->
@@ -41,9 +43,50 @@
                 </div>
             </div>
 
-            <!-- Gallery Images Tab -->
+            <!-- About Image Tab -->
+            <div id="about-image-tab" class="tab-content">
+                <h2 class="section-title">보은한복 소개 이미지 관리</h2>
+                <div class="about-image-admin">
+                    <div class="product-admin-card">
+                        <div class="product-admin-image" onclick="openAboutUploadModal()">
+                            <div id="aboutImagePreview" class="placeholder">한복 이미지</div>
+                            <div class="image-upload-overlay">
+                                <div class="upload-icon">📷</div>
+                                <div class="upload-text">이미지 업로드</div>
+                            </div>
+                        </div>
+                        <div class="product-admin-info">
+                            <h3>보은한복 소개 이미지</h3>
+                            <p>메인 페이지 소개 섹션에 표시될 이미지</p>
+                            <div class="product-admin-actions">
+                                <button class="btn btn-primary btn-small" onclick="openAboutUploadModal()">
+                                    이미지 변경
+                                </button>
+                                <button class="btn btn-outline btn-small" id="deleteAboutImageBtn" onclick="removeAboutImage()" style="display: none;">
+                                    삭제
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Gallery Tab -->
+            <div id="main-gallery-tab" class="tab-content">
+                <h2 class="section-title">메인 갤러리 이미지 관리</h2>
+                <div class="gallery-admin-container">
+                    <div class="product-selector">
+                        <button class="btn btn-primary" onclick="openMainGalleryUploadModal()">+ 이미지 추가</button>
+                    </div>
+                    <div class="gallery-admin-grid" id="mainGalleryImagesGrid">
+                        <!-- Main gallery images will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Gallery Images Tab -->
             <div id="gallery-images-tab" class="tab-content">
-                <h2 class="section-title">갤러리 이미지 관리</h2>
+                <h2 class="section-title">제품 갤러리 이미지 관리</h2>
                 <div class="gallery-admin-container">
                     <div class="product-selector">
                         <label for="galleryProductSelect">제품 선택:</label>
@@ -94,7 +137,61 @@
         </div>
     </div>
 
-    <!-- Gallery Upload Modal -->
+    <!-- About Image Upload Modal -->
+    <div id="aboutUploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>소개 이미지 업로드</h2>
+                <button class="modal-close" onclick="closeAboutModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="aboutUploadForm">
+                    <div class="form-group">
+                        <label for="aboutImageFile">이미지 파일</label>
+                        <input type="file" id="aboutImageFile" accept="image/*" required>
+                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('aboutImageFile').click()">
+                            파일 선택
+                        </button>
+                        <span id="aboutFileName" style="margin-left: 10px; color: #6c757d;"></span>
+                    </div>
+                    <img id="aboutPreviewImage" class="preview-image" style="display: none;">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeAboutModal()">취소</button>
+                <button type="button" class="btn btn-primary" onclick="uploadAboutImage()">업로드</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Gallery Upload Modal -->
+    <div id="mainGalleryUploadModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>메인 갤러리 이미지 추가</h2>
+                <button class="modal-close" onclick="closeMainGalleryModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="mainGalleryUploadForm">
+                    <div class="form-group">
+                        <label for="mainGalleryImageFile">이미지 파일 (여러 개 선택 가능)</label>
+                        <input type="file" id="mainGalleryImageFile" accept="image/*" multiple required>
+                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('mainGalleryImageFile').click()">
+                            파일 선택
+                        </button>
+                        <span id="mainGalleryFileNames" style="margin-left: 10px; color: #6c757d;"></span>
+                    </div>
+                    <div id="mainGalleryPreviewContainer" class="gallery-preview-container"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeMainGalleryModal()">취소</button>
+                <button type="button" class="btn btn-primary" onclick="uploadMainGalleryImages()">업로드</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Gallery Upload Modal -->
     <div id="galleryUploadModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
